@@ -1,0 +1,7 @@
+version: '2'
+
+services:
+  wetty:
+    build: .
+    environment:
+      - REMOTE_SSH_USER=root
