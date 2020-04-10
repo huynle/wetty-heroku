@@ -2,7 +2,6 @@
   "name": "wetty",
   "description": "deploy wetty to Heroku.",
   "keywords": ["wetty"],
-  },
   "website": "https://github.com/huynle/wetty-heroku",
   "repository": "https://github.com/huynle/wetty-heroku",
   "stack": "container"
