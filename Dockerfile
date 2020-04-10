@@ -21,3 +21,4 @@ ENV REMOTE_SSH_SERVER=127.0.0.1 \
 EXPOSE 3000
 
 ENTRYPOINT "./run.sh"
+CMD "./run.sh"
