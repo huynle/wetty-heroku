@@ -1,17 +1,23 @@
-FROM node:8-alpine as builder
-WORKDIR /usr/src/app
-RUN apk add --update build-base python
-COPY . /usr/src/app
-RUN yarn
-FROM node:8-alpine
-MAINTAINER butlerx@notthe.cloud
-WORKDIR /app
-RUN adduser -D -h /home/term -s /bin/sh term && \
-    ( echo "term:term" | chpasswd ) && \
-	apk add openssh-client && \
-	apk add sshpass
-USER term
+FROM node:10-alpine
+MAINTAINER Sven Fischer <sven@leiderfischer.de>
+
+WORKDIR /src
+
+RUN apk add --no-cache --virtual .build-deps \
+  git python make g++ \
+  && apk add --no-cache openssh-client \
+  && git clone https://github.com/krishnasrinivas/wetty --branch v1.1.4 /src \
+  && npm install \
+  && apk del .build-deps \
+  && adduser -h /src -D term \
+  && npm run-script build
+
+ADD run.sh /src
+
+# Default ENV params used by wetty
+ENV REMOTE_SSH_SERVER=127.0.0.1 \
+    REMOTE_SSH_PORT=22
+
 EXPOSE 3000
-COPY --from=builder /usr/src/app /app
-RUN mkdir ~/.ssh
-CMD ssh-keyscan -H wetty-ssh >> ~/.ssh/known_hosts && node bin 
+
+ENTRYPOINT "./run.sh"
