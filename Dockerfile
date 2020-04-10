@@ -18,8 +18,6 @@ ADD run.sh /src
 ENV REMOTE_SSH_SERVER=127.0.0.1 \
     REMOTE_SSH_PORT=22
 
-EXPOSE 3000
-
 RUN chmod +x /src/run.sh
 WORKDIR /src
 ENTRYPOINT ["/src/run.sh"]
