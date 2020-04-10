@@ -14,6 +14,11 @@ RUN apk add --no-cache --virtual .build-deps \
 
 ADD run.sh /src
 
+RUN useradd -d /home/term -m -s /bin/bash term
+RUN echo 'term:term' | chpasswd
+RUN sudo adduser term sudo
+
+
 # Default ENV params used by wetty
 ENV REMOTE_SSH_SERVER=127.0.0.1 \
     REMOTE_SSH_PORT=22
